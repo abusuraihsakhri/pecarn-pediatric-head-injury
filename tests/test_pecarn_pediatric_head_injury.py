@@ -63,3 +63,40 @@ def test_supervisor_consensus_and_audit():
     assert main(["audit", "--task-id", "CLI-TEST-01"]) == 0
     assert main(["chat", "Explain", "specifications"]) == 0
     assert main(["verify-audit"]) == 0
+
+
+def test_cli_batch_file_not_found():
+    """CLI batch command returns error code for missing file."""
+    result = main(["batch", "-i", "nonexistent_file.csv"])
+    assert result == 1
+
+
+def test_cli_batch_invalid_numeric():
+    """CLI batch command handles invalid numeric values gracefully."""
+    import tempfile
+    import os
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False, newline='') as f:
+        f.write("task_id,target_identifier,primary_metric,secondary_metric\n")
+        f.write("T1,TARGET-1,not_a_number,5.0\n")
+        tmp_path = f.name
+    try:
+        result = main(["batch", "-i", tmp_path])
+        assert result == 1
+    finally:
+        os.unlink(tmp_path)
+
+
+def test_audit_trail_integrity():
+    """Audit trail maintains cryptographic chain integrity."""
+    trail = AuditLogger.get_trail()
+    assert len(trail) > 0
+    assert AuditLogger.verify_integrity() is True
+
+
+def test_phi_guard_redaction():
+    """PHIGuard.redact_phi replaces sensitive patterns."""
+    text = "Contact patient at 555-123-4567 or MRN-12345"
+    redacted = PHIGuard.redact_phi(text)
+    assert "555-123-4567" not in redacted
+    assert "MRN-12345" not in redacted
+    assert "[REDACTED_IDENTIFIER]" in redacted
