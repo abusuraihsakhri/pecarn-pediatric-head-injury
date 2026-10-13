@@ -1,7 +1,7 @@
 """
 Pydantic v2 schemas and data definitions for Pecarn Pediatric Head Injury.
 Domain: Clinical & Biomedical AI
-Standard: CAP / CLSI / ISO Standards
+Legacy demonstration; not a validated clinical algorithm
 """
 import datetime
 from enum import Enum
@@ -39,7 +39,7 @@ class AgentAlert(BaseModel):
     summary: str
     technical_details: str
     actionable_remediation: str
-    standard_reference: str = "CAP / CLSI / ISO Standards"
+    standard_reference: str = "Generic demonstration only"
     timestamp: str = Field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat())
 
     def to_dict(self) -> Dict[str, Any]:

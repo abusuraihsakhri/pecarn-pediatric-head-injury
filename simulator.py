@@ -50,14 +50,14 @@ def run_simulation(iterations: int = 100):
 
     elapsed = time.time() - start_time
     print("\n" + "=" * 70)
-    print(f"  SIMULATION SUMMARY FOR PECARN PEDIATRIC HEAD INJURY")
+    print(f"  GENERIC DEMONSTRATION SUMMARY — NOT PECARN")
     print("=" * 70)
     print(f"  Total Tasks Processed:     {iterations}")
     print(f"  Elapsed Time:              {elapsed:.3f} seconds ({iterations/max(0.001, elapsed):.1f} tasks/sec)")
     print(f"  Routine Outcomes:          {nominal_count} ({nominal_count/iterations*100:.1f}%)")
     print(f"  Elevated Risk Outcomes:    {elevated_count} ({elevated_count/iterations*100:.1f}%)")
-    print(f"  Critical Interventions:    {critical_count} ({critical_count/iterations*100:.1f}%)")
-    print(f"  Adversarial PHI Intercepts:{phi_blocked_count} (100% Interception Rate)")
+    print(f"  Simulated Critical Flags:    {critical_count} ({critical_count/iterations*100:.1f}%)")
+    print(f"  Pattern-based Blocks:   {phi_blocked_count} (only tested patterns)")
     print(f"  HMAC Audit Ledger Blocks:  {len(AuditLogger.get_trail())}")
     print(f"  HMAC Cryptographic Check:  {AuditLogger.verify_integrity()}")
     print("=" * 70)

@@ -55,8 +55,8 @@ def main(argv=None):
         )
         dossier = supervisor.process_task(payload)
         print("=" * 80)
-        print(f"  PECARN PEDIATRIC HEAD INJURY")
-        print(f"  Domain: Clinical & Biomedical AI | Standard: CAP / CLSI / ISO Standards")
+        print(f"  LEGACY COMPONENT AUDIT DEMONSTRATION (NOT PECARN)")
+        print("  Warning: Demo thresholds and urgency are NOT validated clinical decisions.")
         print(f"  Dossier ID: {dossier.dossier_id} | Urgency: [{dossier.overall_urgency.value}]")
         print("=" * 80)
         for a in dossier.alerts:
@@ -70,7 +70,7 @@ def main(argv=None):
 
     if args.command == "chat":
         ans = supervisor.query_supervisory_chat(" ".join(args.query))
-        print(f"\n[Pecarn Pediatric Head Injury Supervisor]:\n{ans}\n")
+        print(f"\n[Legacy demonstration chat — NOT verified medical advice]:\n{ans}\n")
         return 0
 
     if args.command == "verify-audit":
