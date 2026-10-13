@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   pecarn-pediatric-head-injury:
     build: .
@@ -7,7 +5,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - AUDIT_SECRET_KEY=pecarn-pediatric-head-injury-prod-audit-key-2026
+      - AUDIT_SECRET_KEY=${AUDIT_SECRET_KEY:?Set a secure AUDIT_SECRET_KEY in the environment}
       - MODEL_PROVIDER=mock
     restart: unless-stopped
     healthcheck:
