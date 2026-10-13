@@ -70,7 +70,7 @@ def metrics():
     return {
         "dossiers_processed_total": len(supervisor.dossier_registry),
         "audit_blocks_total": len(AuditLogger.get_trail()),
-        "system_status": "NOMINAL_OPTIMAL"
+        "demonstration_only": True
     }
 
 
@@ -81,14 +81,14 @@ def api_audit(payload: SystemTaskPayload):
         dossier = supervisor.process_task(payload)
     except SecurityException:
         raise HTTPException(status_code=422, detail="Input contains a prohibited identifier")
-    return dossier.to_dict()
+    return {**dossier.to_dict(), "demonstration_only": True, "warning": "Generic component demonstration, NOT PECARN clinical risk stratification"}
 
 
 @app.post("/api/chat")
 def api_chat(req: ChatRequest):
     try:
         ans = supervisor.query_supervisory_chat(req.query)
-        return {"response": ans}
+        return {"response": ans, "demonstration_only": True}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
