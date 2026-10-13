@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Pecarn Pediatric Head Injury API",
-    "description": "Enterprise Distributed Component Platform (Clinical & Cryptographic AI) adhering to CAP / CLSI / NIST Standards.",
-    "version": "3.0.0-ENTERPRISE",
+    "description": "Age-specific PECARN decision rule and separately labeled legacy demonstration endpoints. The FastAPI /openapi.json response is authoritative.",
+    "version": "4.0.0",
     "contact": {
       "name": "Dr. Abu Suraih Sakhri",
       "url": "https://github.com/abusuraihsakhri"
@@ -22,7 +22,7 @@
     },
     "/metrics": {
       "get": {
-        "summary": "Prometheus operational metrics",
+        "summary": "Legacy demonstration counters (JSON, not Prometheus)",
         "responses": {
           "200": {
             "description": "Prometheus text metrics"
@@ -32,7 +32,7 @@
     },
     "/api/audit": {
       "post": {
-        "summary": "Dispatch task payload across specialized workers",
+        "summary": "Legacy generic demonstration, not PECARN",
         "requestBody": {
           "content": {
             "application/json": {
@@ -76,7 +76,7 @@
     },
     "/api/chat": {
       "post": {
-        "summary": "Air-gapped supervisory conversational assistant",
+        "summary": "Legacy deterministic mock, not clinical reasoning",
         "requestBody": {
           "content": {
             "application/json": {
@@ -107,6 +107,126 @@
         "responses": {
           "200": {
             "description": "Cryptographic audit trail"
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Serve standalone PECARN browser calculator",
+        "responses": {
+          "200": {
+            "description": "Static browser application"
+          }
+        }
+      }
+    },
+    "/app.js": {
+      "get": {
+        "summary": "Serve offline PECARN browser rule JavaScript",
+        "responses": {
+          "200": {
+            "description": "JavaScript program"
+          }
+        }
+      }
+    },
+    "/api/pecarn": {
+      "post": {
+        "summary": "Classify eligible minor blunt head trauma using age-specific PECARN criteria",
+        "description": "Clinical findings required explicitly; rejects missing, inapplicable, or out-of-scope cases.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PECARNRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Decision-rule category and CT guidance"
+          },
+          "422": {
+            "description": "Invalid, incomplete, or ineligible assessment"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PECARNRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "age_months",
+          "gcs",
+          "hours_since_injury",
+          "exclusion_present",
+          "altered_mental_status",
+          "severe_mechanism"
+        ],
+        "properties": {
+          "age_months": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 215
+          },
+          "gcs": {
+            "type": "integer",
+            "enum": [
+              14,
+              15
+            ]
+          },
+          "hours_since_injury": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 24
+          },
+          "exclusion_present": {
+            "type": "boolean"
+          },
+          "altered_mental_status": {
+            "type": "boolean"
+          },
+          "severe_mechanism": {
+            "type": "boolean"
+          },
+          "palpable_skull_fracture": {
+            "type": "boolean",
+            "description": "Required only for applicable age cohort; must be omitted for other cohort"
+          },
+          "nonfrontal_scalp_hematoma": {
+            "type": "boolean",
+            "description": "Required only for applicable age cohort; must be omitted for other cohort"
+          },
+          "loc_at_least_5_seconds": {
+            "type": "boolean",
+            "description": "Required only for applicable age cohort; must be omitted for other cohort"
+          },
+          "not_acting_normally": {
+            "type": "boolean",
+            "description": "Required only for applicable age cohort; must be omitted for other cohort"
+          },
+          "basilar_skull_fracture_signs": {
+            "type": "boolean",
+            "description": "Required only for applicable age cohort; must be omitted for other cohort"
+          },
+          "any_loss_of_consciousness": {
+            "type": "boolean",
+            "description": "Required only for applicable age cohort; must be omitted for other cohort"
+          },
+          "vomiting": {
+            "type": "boolean",
+            "description": "Required only for applicable age cohort; must be omitted for other cohort"
+          },
+          "severe_headache": {
+            "type": "boolean",
+            "description": "Required only for applicable age cohort; must be omitted for other cohort"
           }
         }
       }
