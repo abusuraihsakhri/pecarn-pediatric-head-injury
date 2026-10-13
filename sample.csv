@@ -1,4 +1,3 @@
-Patient_ID,v1,v2,v3
-PT-101,14.5,4.2,1.8
-PT-102,8.0,2.1,0.5
-PT-103,28.4,12.0,5.5
+age_months,gcs,hours_since_injury,exclusion_present,altered_mental_status,severe_mechanism,palpable_skull_fracture,nonfrontal_scalp_hematoma,loc_at_least_5_seconds,not_acting_normally,basilar_skull_fracture_signs,any_loss_of_consciousness,vomiting,severe_headache
+10,15,2,no,no,no,no,no,no,no,,,,
+72,15,4,no,no,no,,,,,no,no,yes,no
